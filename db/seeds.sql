@@ -2,7 +2,7 @@ USE employeetracker_db;
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES 
-    ('John', 'Smith', 1, 2), 
+    ('John', 'Smith', 1, NULL), 
     ('Michael', 'Jackson', 2, 1), 
     ('Mariah', 'Carey', 2, 1), 
     ('Beyonce', 'Knowles', 2, 1), 
