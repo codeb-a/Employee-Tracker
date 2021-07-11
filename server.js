@@ -3,7 +3,7 @@ const mysql = require("mysql");
 require("dotenv").config();
 const inquirer = require("inquirer");
 
-// connection to MySQL
+// Connection to MySQL
 const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -21,50 +21,51 @@ const loadOptions = () => {
         type: "list",
         message: "What would you like to do?",
         choices: [
-          "View all employees",
-          "View all employees by department",
-          "Add employee",
-          "Remove employee",
-          "Update employee role",
-          "View all roles",
-          "Add role",
-          "Remove role",
-          "View all departments",
-          "Add department",
-          "Remove department",
-          "Quit",
+          "VIEW ALL EMPLOYEES",
+          "VIEW ALL EMPLOYEES BY DEPARTMENT",
+          "ADD EMPLOYEE",
+          "REMOVE EMPLOYEE",
+          "UPDATE EMPLOYEE ROLE",
+          "VIEW ALL ROLES",
+          "ADD ROLE",
+          "REMOVE ROLE",
+          "VIEW ALL DEPARTMENTS",
+          "ADD DEPARTMENT",
+          "REMOVE DEPARTMENT",
+          "QUIT",
         ],
       },
     ])
     .then((answer) => {
-      if (answer.options === "View all employees") {
+      if (answer.options === "VIEW ALL EMPLOYEES") {
         viewAllEmployees();
-      } else if (answer.options === "View all employees by department") {
+      } else if (answer.options === "VIEW ALL EMPLOYEES BY DEPARTMENT") {
         viewByDept();
-      } else if (answer.options === "Add employee") {
+      } else if (answer.options === "ADD EMPLOYEE") {
         addNewEmployee();
-      } else if (answer.options === "Remove employee") {
+      } else if (answer.options === "REMOVE EMPLOYEE") {
         deleteEmployee();
-      } else if (answer.options === "Update employee role") {
+      } else if (answer.options === "UPDATE EMPLOYEE ROLE") {
         updateEmployeeRole();
-      } else if (answer.options === "View all roles") {
+      } else if (answer.options === "VIEW ALL ROLES") {
         viewAllRoles();
-      } else if (answer.options === "Add role") {
+      } else if (answer.options === "ADD ROLE") {
         addNewRole();
-      } else if (answer.options === "Remove role") {
+      } else if (answer.options === "REMOVE ROLE") {
         deleteRole();
-      } else if (answer.options === "View all departments") {
+      } else if (answer.options === "VIEW ALL DEPARTMENTS") {
         viewAllDepartments();
-      } else if (answer.options === "Add department") {
+      } else if (answer.options === "ADD DEPARTMENT") {
         addNewDepartment();
-      } else if (answer.options === "Remove department") {
+      } else if (answer.options === "REMOVE DEPARTMENT") {
         deleteDepartment();
-      } else if (answer.options === "Quit") {
+      } else if (answer.options === "QUIT") {
         quit();
       }
     });
 };
 
+// Shows all employees
 const viewAllEmployees = () => {
   connection.query(
     'SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS "department", employee.manager_id FROM employee INNER JOIN role ON role.id = employee.role_id INNER JOIN department ON department.id = role.department_id',
@@ -76,6 +77,7 @@ const viewAllEmployees = () => {
   );
 };
 
+// Shows employees by department
 const viewByDept = () => {
   inquirer
     .prompt({
@@ -97,6 +99,7 @@ const viewByDept = () => {
     });
 };
 
+// Deletes an employee
 const deleteEmployee = () => {
   let deleteOptions = [];
   connection.query(
@@ -124,7 +127,7 @@ const deleteEmployee = () => {
             (err, res) => {
               if (err) throw err;
               console.log(
-                `\n-----\n${answer.employeeDelete} has been removed.\n-----\n`
+                `\n-----\n${answer.employeeDelete} HAS BEEN REMOVED!\n-----\n`
               );
               loadOptions();
             }
@@ -134,6 +137,7 @@ const deleteEmployee = () => {
   );
 };
 
+// Adds a new employee
 const addNewEmployee = () => {
   let managerInfo = [];
   let managerOptions = [];
@@ -210,7 +214,7 @@ const addNewEmployee = () => {
               (err, res) => {
                 if (err) throw err;
                 console.log(
-                  `\n-----\n${answer.firstName} ${answer.lastName} has been added.\n-----\n`
+                  `\n-----\n${answer.firstName} ${answer.lastName} HAS BEEN ADDED!\n-----\n`
                 );
                 loadOptions();
               }
@@ -221,6 +225,7 @@ const addNewEmployee = () => {
   );
 };
 
+// Changes the employee's role
 const updateEmployeeRole = () => {
   let updateEmployeeOptions = [];
   let roleOptions = [];
@@ -229,7 +234,6 @@ const updateEmployeeRole = () => {
     "SELECT employee.first_name, employee.last_name FROM employee",
     (err, res) => {
       if (err) throw err;
-
       res.forEach((choice) => {
         fullName = `${choice.first_name} ${choice.last_name}`;
         updateEmployeeOptions.push(fullName);
@@ -276,7 +280,7 @@ const updateEmployeeRole = () => {
             console.log(
               `\n-----\n${chosenName.join(
                 " "
-              )}'s role has been updated.\n-----\n`
+              )}'s ROLE HAS BEEN UPDATED!\n-----\n`
             );
             loadOptions();
           }
@@ -285,6 +289,7 @@ const updateEmployeeRole = () => {
   });
 };
 
+// Shows all Roles
 const viewAllRoles = () => {
   connection.query(
     "SELECT role.title, role.salary, role.department_id FROM role",
@@ -296,6 +301,7 @@ const viewAllRoles = () => {
   );
 };
 
+// Adds a new role
 const addNewRole = () => {
   let roleOptions = [];
   connection.query(
@@ -340,7 +346,7 @@ const addNewRole = () => {
             (err, res) => {
               if (err) throw err;
               console.log(
-                `\n-----\nYou added a new role!: ${answer.title}.\n-----\n`
+                `\n-----\nYOU ADDED THE NEW ROLE!: ${answer.title}.\n-----\n`
               );
               loadOptions();
             }
@@ -350,6 +356,7 @@ const addNewRole = () => {
   );
 };
 
+// deletes a role
 const deleteRole = () => {
   let deleteRoleOptions = [];
   connection.query("SELECT role.title FROM role", (err, res) => {
@@ -372,7 +379,7 @@ const deleteRole = () => {
           [answer.role],
           (err, res) => {
             if (err) throw err;
-            console.log(`\n-----\n${answer.role} has been removed.\n-----\n`);
+            console.log(`\n-----\n${answer.role} HAS BEEN REMOVED!\n-----\n`);
             loadOptions();
           }
         );
@@ -380,6 +387,7 @@ const deleteRole = () => {
   });
 };
 
+// Shows all departments
 const viewAllDepartments = () => {
   connection.query("SELECT department.name FROM department", (err, res) => {
     if (err) throw err;
@@ -388,6 +396,7 @@ const viewAllDepartments = () => {
   });
 };
 
+// Adds a new department
 const addNewDepartment = () => {
   inquirer
     .prompt([
@@ -407,7 +416,7 @@ const addNewDepartment = () => {
         (err, res) => {
           if (err) throw err;
           console.log(
-            `\n-----\nYou added a new department!: ${answer.department}.\n-----\n`
+            `\n-----\nYOU ADDED THE NEW DEPARTMENT!: ${answer.department}.\n-----\n`
           );
           loadOptions();
         }
@@ -415,6 +424,7 @@ const addNewDepartment = () => {
     });
 };
 
+// Deletes a department
 const deleteDepartment = () => {
   let departmentOptions = [];
   connection.query("SELECT department.name FROM department", (err, res) => {
@@ -438,7 +448,7 @@ const deleteDepartment = () => {
           (err, res) => {
             if (err) throw err;
             console.log(
-              `\n-----\n${answer.departmentDelete} and its employees has been deleted!.\n-----\n`
+              `\n-----\n${answer.departmentDelete} AND IT'S EMPLOYEES HAVE BEEN DELETED!\n-----\n`
             );
             loadOptions();
           }
@@ -447,10 +457,12 @@ const deleteDepartment = () => {
   });
 };
 
+// Closes the app
 const quit = () => {
   process.exit();
 };
 
+// connects the app
 connection.connect((err) => {
   if (err) throw err;
   console.log(`Connected as id ${connection.threadId}`);
