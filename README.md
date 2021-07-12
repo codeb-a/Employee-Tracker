@@ -24,6 +24,8 @@ To install this application you will need to use Node.js, Inquirer, and MySQL. Y
 
 Run "npm start" in the terminal to begin the appplication. Then Follow along with the prompts to view and edit employees, their departments, and their roles in the company.
 
+![](images/employee-tracker.gif)
+
 ## License
 
 MIT
