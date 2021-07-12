@@ -11,8 +11,6 @@ This is a command-line application that lets a business owner easily view and ma
 - [Installation](#Installation)
 - [Usage](#Usage)
 - [License](#License)
-- [Contributing](#Contributing)
-- [Tests](#Tests)
 - [Known Bugs](#bug)
 - [Questions](#Questions)
 
